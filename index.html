@@ -358,9 +358,9 @@ footer {
   <p class="hero-label" data-ru="видеомонтаж · моушен · съёмка" data-en="editing · motion · cinematography">видеомонтаж · моушен · съёмка</p>
   <h1 class="hero-title">Maxim Mirra</h1>
   <p class="hero-desc"
-    data-ru="Монтирую рилсы, авторское и коммерческое видео. Снимаю сам или работаю с вашим материалом. Беру разовые заказы — без формата 5/2."
-    data-en="I edit reels, creative and commercial video. I shoot myself or work with your footage. Available for one-off projects — no 9-to-5.">
-    Монтирую рилсы, авторское и коммерческое видео. Снимаю сам или работаю с вашим материалом. Беру разовые заказы — без формата 5/2.
+    data-ru="Монтирую рилсы, авторское и коммерческое видео. Снимаю сам или работаю с вашим материалом. Беру разовые заказы."
+    data-en="I edit reels, creative and commercial video. I shoot myself or work with your footage. Available for one-off projects.">
+    Монтирую рилсы, авторское и коммерческое видео. Снимаю сам или работаю с вашим материалом. Беру разовые заказы.
   </p>
   <div class="hero-contacts">
     <a class="contact-link" href="https://t.me/maximmirra" target="_blank">Telegram</a>
@@ -421,7 +421,7 @@ footer {
 <script>
 var commercial = [
   {ru:"Рекламный ролик для Hello Fall",en:"Hello Fall Ad",meta_ru:"монтаж + моушен",meta_en:"editing + motion",vk:"-236688224_456239022",yt:"GfaP4CqxofY",vertical:false},
-  {ru:"Свадьба Нщам и Рои",en:"Wedding of Nscham & Roi",meta_ru:"монтаж",meta_en:"editing",vk:"-236688224_456239017",yt:null,vertical:true},
+  {ru:"Свадьба Ноам и Рои",en:"Wedding of Noam & Roi",meta_ru:"монтаж",meta_en:"editing",vk:"-236688224_456239017",yt:null,vertical:true},
   {ru:"Дубли в кино",en:"Film Takes",meta_ru:"монтаж + титры",meta_en:"editing + titles",vk:"-236688224_456239024",yt:"IcHqhKQZaDY",vertical:true},
   {ru:"Реклама Starbucks",en:"Starbucks Ad",meta_ru:"моушен дизайн",meta_en:"motion design",vk:"-236688224_456239023",yt:"Zl7hCjweEYs",vertical:false}
 ];
@@ -458,7 +458,7 @@ var gradients = [
 ];
 
 function embedUrl(item) {
-  if (item.yt) return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0';
+  if (item.yt) return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0&vq=hd1080';
   if (item.vk) {
     var p = item.vk.split('_');
     return 'https://vkvideo.ru/video_ext.php?oid=' + p[0] + '&id=' + p[1] + '&hd=2&autoplay=1';
