@@ -77,6 +77,16 @@ nav {
   position: relative;
 }
 
+.hero-photo {
+  width: 220px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  margin-bottom: 32px;
+  flex-shrink: 0;
+}
+
 .hero-label {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
@@ -340,6 +350,7 @@ footer {
   .grid { grid-template-columns: repeat(2, 1fr); }
   footer { padding: 40px 20px; }
   .footer-links { align-items: flex-start; }
+  .hero-photo { width: 160px; }
 }
 </style>
 </head>
@@ -355,6 +366,7 @@ footer {
 </nav>
 
 <div class="hero">
+  <img class="hero-photo" src="photo_max.jpg" alt="Maxim Mirra">
   <p class="hero-label" data-ru="видеомонтаж · моушен · съёмка" data-en="editing · motion · cinematography">видеомонтаж · моушен · съёмка</p>
   <h1 class="hero-title">Maxim Mirra</h1>
   <p class="hero-desc"
