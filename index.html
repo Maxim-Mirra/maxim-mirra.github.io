@@ -231,6 +231,7 @@ section {
 .reserve-toggle {
   display: flex;
   align-items: center;
+  gap: 12px;
   cursor: pointer;
   padding: 24px 0;
   border-top: 0.5px solid var(--border);
@@ -248,11 +249,15 @@ section {
 }
 
 .reserve-toggle-icon {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  color: var(--fg3);
-  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
   transition: transform 0.3s;
+}
+.reserve-toggle-icon svg {
+  width: 22px;
+  height: 22px;
 }
 .reserve-toggle.open .reserve-toggle-icon { transform: rotate(180deg); }
 
@@ -350,7 +355,7 @@ footer {
   .grid { grid-template-columns: repeat(2, 1fr); }
   footer { padding: 40px 20px; }
   .footer-links { align-items: flex-start; }
-  .hero-photo { width: 160px; }
+  .hero-photo { width: 50%; }
 }
 </style>
 </head>
@@ -401,7 +406,11 @@ footer {
 <section id="reserve" style="padding-top: 0; border-top: none;">
   <div class="reserve-toggle" id="reserve-toggle" onclick="toggleReserve()">
     <span class="reserve-toggle-title" data-ru="Ещё работы" data-en="More work">Ещё работы</span>
-    <span class="reserve-toggle-icon" id="reserve-icon">↓</span>
+    <span class="reserve-toggle-icon" id="reserve-icon">
+      <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 8.5L11 14.5L17 8.5" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
   </div>
   <div class="reserve-body" id="reserve-body">
     <div class="grid" id="grid-reserve" style="margin-top: 2px;"></div>
