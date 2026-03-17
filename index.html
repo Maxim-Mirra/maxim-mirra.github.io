@@ -327,6 +327,33 @@ section {
   white-space: nowrap;
 }
 
+/* Source toggle buttons */
+.modal-source-toggle {
+  display: flex;
+  gap: 2px;
+  margin-top: 12px;
+}
+.source-btn {
+  background: none;
+  border: 0.5px solid var(--fg3);
+  color: var(--fg3);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.source-btn.active {
+  color: var(--fg);
+  border-color: var(--fg2);
+}
+.source-btn:hover:not(:disabled) { color: var(--fg2); border-color: var(--fg2); }
+.source-btn:disabled {
+  opacity: 0.2;
+  cursor: default;
+}
+
 footer {
   padding: 60px 40px;
   border-top: 0.5px solid var(--border);
@@ -436,6 +463,10 @@ footer {
       <span class="modal-title" id="modal-title"></span>
       <span class="modal-meta" id="modal-meta"></span>
     </div>
+    <div class="modal-source-toggle" id="modal-source-toggle">
+      <button class="source-btn" id="btn-yt" onclick="switchSource('yt')">YouTube</button>
+      <button class="source-btn" id="btn-vk" onclick="switchSource('vk')">VK</button>
+    </div>
   </div>
 </div>
 
@@ -479,6 +510,7 @@ footerEmail.href = 'mailto:' + e;
 footerEmail.textContent = e;
 
 var lang = 'ru';
+var currentItem = null;
 
 var gradients = [
   'linear-gradient(135deg,#1c1a18 0%,#2a2520 100%)',
@@ -487,9 +519,10 @@ var gradients = [
   'linear-gradient(135deg,#1a181c 0%,#201e24 100%)'
 ];
 
-function embedUrl(item) {
-  if (item.yt) return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0';
-  if (item.vk) {
+function embedUrl(item, source) {
+  if (source === 'yt' && item.yt)
+    return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0';
+  if (source === 'vk' && item.vk) {
     var p = item.vk.split('_');
     return 'https://vkvideo.ru/video_ext.php?oid=' + p[0] + '&id=' + p[1] + '&hd=2&autoplay=1';
   }
@@ -535,15 +568,30 @@ function setLang(l) {
 }
 
 function openModal(d) {
-  var item = JSON.parse(decodeURIComponent(d));
-  var url = embedUrl(item);
-  if (!url) return;
-  document.getElementById('modal-title').textContent = item[lang] || item.ru;
-  document.getElementById('modal-meta').textContent = item['meta_' + lang] || item.meta_ru;
-  document.getElementById('modal-iframe').src = url;
-  document.getElementById('modal-video-wrap').className = 'modal-video-wrap' + (item.vertical ? ' vertical' : '');
+  currentItem = JSON.parse(decodeURIComponent(d));
+  var source = currentItem.yt ? 'yt' : 'vk';
+
+  document.getElementById('modal-title').textContent = currentItem[lang] || currentItem.ru;
+  document.getElementById('modal-meta').textContent = currentItem['meta_' + lang] || currentItem.meta_ru;
+  document.getElementById('modal-video-wrap').className = 'modal-video-wrap' + (currentItem.vertical ? ' vertical' : '');
+
+  // Показываем переключатель только если есть оба источника
+  var toggle = document.getElementById('modal-source-toggle');
+  toggle.style.display = (currentItem.yt && currentItem.vk) ? 'flex' : 'none';
+
+  switchSource(source);
   document.getElementById('modal').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function switchSource(source) {
+  var url = embedUrl(currentItem, source);
+  if (!url) return;
+  document.getElementById('modal-iframe').src = url;
+  document.getElementById('btn-yt').classList.toggle('active', source === 'yt');
+  document.getElementById('btn-vk').classList.toggle('active', source === 'vk');
+  document.getElementById('btn-yt').disabled = !currentItem.yt;
+  document.getElementById('btn-vk').disabled = !currentItem.vk;
 }
 
 function closeModal() {
