@@ -255,15 +255,13 @@ section {
   flex-shrink: 0;
   transition: transform 0.3s;
 }
-.reserve-toggle-icon svg {
-  width: 22px;
-  height: 22px;
-}
+.reserve-toggle-icon svg { width: 22px; height: 22px; }
 .reserve-toggle.open .reserve-toggle-icon { transform: rotate(180deg); }
 
 .reserve-body { display: none; padding-top: 2px; }
 .reserve-body.open { display: block; }
 
+/* Modal */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -290,21 +288,63 @@ section {
 }
 .modal-close:hover { color: var(--fg); }
 
+/* Строка: плеер + кнопки сбоку */
+.modal-player-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .modal-video-wrap {
   position: relative;
   padding-top: 56.25%;
   background: #000;
+  flex: 1;
 }
 .modal-video-wrap.vertical {
-  padding-top: 177.78%;
-  max-width: 380px;
-  margin: 0 auto;
+  padding-top: 0;
+  width: 340px;
+  height: 604px;
+  flex: none;
 }
 .modal-video-wrap iframe {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   border: none;
 }
+
+/* Кнопки источника — вертикально справа */
+.modal-source-toggle-side {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Кнопки источника — горизонтально снизу */
+.modal-source-toggle-bottom {
+  display: flex;
+  gap: 2px;
+  margin-top: 12px;
+}
+
+.source-btn {
+  background: none;
+  border: 0.5px solid var(--fg3);
+  color: var(--fg3);
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  white-space: nowrap;
+}
+.source-btn.active {
+  color: var(--fg);
+  border-color: var(--fg2);
+}
+.source-btn:hover:not(:disabled) { color: var(--fg2); border-color: var(--fg2); }
+.source-btn:disabled { opacity: 0.2; cursor: default; }
 
 .modal-caption {
   margin-top: 14px;
@@ -325,33 +365,6 @@ section {
   color: var(--fg3);
   letter-spacing: 0.08em;
   white-space: nowrap;
-}
-
-/* Source toggle buttons */
-.modal-source-toggle {
-  display: flex;
-  gap: 2px;
-  margin-top: 12px;
-}
-.source-btn {
-  background: none;
-  border: 0.5px solid var(--fg3);
-  color: var(--fg3);
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  padding: 5px 12px;
-  cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
-}
-.source-btn.active {
-  color: var(--fg);
-  border-color: var(--fg2);
-}
-.source-btn:hover:not(:disabled) { color: var(--fg2); border-color: var(--fg2); }
-.source-btn:disabled {
-  opacity: 0.2;
-  cursor: default;
 }
 
 footer {
@@ -383,6 +396,7 @@ footer {
   footer { padding: 40px 20px; }
   .footer-links { align-items: flex-start; }
   .hero-photo { width: 50%; }
+  .modal-video-wrap.vertical { width: 220px; height: 391px; }
 }
 </style>
 </head>
@@ -456,16 +470,27 @@ footer {
 <div class="modal-overlay" id="modal" onclick="closeModalOverlay(event)">
   <div class="modal-box">
     <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-video-wrap" id="modal-video-wrap">
-      <iframe id="modal-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+
+    <div class="modal-player-row">
+      <div class="modal-video-wrap" id="modal-video-wrap">
+        <iframe id="modal-iframe" src="" allowfullscreen allow="autoplay"></iframe>
+      </div>
+      <!-- Кнопки сбоку — для вертикальных -->
+      <div class="modal-source-toggle-side" id="modal-source-toggle-side" style="display:none;">
+        <button class="source-btn" id="btn-yt-side" onclick="switchSource('yt')">YouTube</button>
+        <button class="source-btn" id="btn-vk-side" onclick="switchSource('vk')">VK</button>
+      </div>
     </div>
+
     <div class="modal-caption">
       <span class="modal-title" id="modal-title"></span>
       <span class="modal-meta" id="modal-meta"></span>
     </div>
-    <div class="modal-source-toggle" id="modal-source-toggle">
-      <button class="source-btn" id="btn-yt" onclick="switchSource('yt')">YouTube</button>
-      <button class="source-btn" id="btn-vk" onclick="switchSource('vk')">VK</button>
+
+    <!-- Кнопки снизу — для горизонтальных -->
+    <div class="modal-source-toggle-bottom" id="modal-source-toggle-bottom" style="display:none;">
+      <button class="source-btn" id="btn-yt-bottom" onclick="switchSource('yt')">YouTube</button>
+      <button class="source-btn" id="btn-vk-bottom" onclick="switchSource('vk')">VK</button>
     </div>
   </div>
 </div>
@@ -500,7 +525,6 @@ var reserve = [
   {ru:"Буто III",en:"Butoh III",meta_ru:"съёмка + монтаж",meta_en:"shoot + edit",vk:"-236688224_456239033",yt:"pjrYyBuDkhA",vertical:true,thumb:"buto3.jpg"}
 ];
 
-// Email через JS — Cloudflare это не трогает
 var e = 'mxmrgmv' + '@' + 'gmail.com';
 var heroEmail = document.getElementById('email-hero');
 var footerEmail = document.getElementById('email-footer');
@@ -569,15 +593,28 @@ function setLang(l) {
 
 function openModal(d) {
   currentItem = JSON.parse(decodeURIComponent(d));
+  var hasBoth = !!(currentItem.yt && currentItem.vk);
   var source = currentItem.yt ? 'yt' : 'vk';
 
   document.getElementById('modal-title').textContent = currentItem[lang] || currentItem.ru;
   document.getElementById('modal-meta').textContent = currentItem['meta_' + lang] || currentItem.meta_ru;
-  document.getElementById('modal-video-wrap').className = 'modal-video-wrap' + (currentItem.vertical ? ' vertical' : '');
 
-  // Показываем переключатель только если есть оба источника
-  var toggle = document.getElementById('modal-source-toggle');
-  toggle.style.display = (currentItem.yt && currentItem.vk) ? 'flex' : 'none';
+  var wrap = document.getElementById('modal-video-wrap');
+  wrap.className = 'modal-video-wrap' + (currentItem.vertical ? ' vertical' : '');
+
+  var side = document.getElementById('modal-source-toggle-side');
+  var bottom = document.getElementById('modal-source-toggle-bottom');
+
+  if (hasBoth && currentItem.vertical) {
+    side.style.display = 'flex';
+    bottom.style.display = 'none';
+  } else if (hasBoth && !currentItem.vertical) {
+    side.style.display = 'none';
+    bottom.style.display = 'flex';
+  } else {
+    side.style.display = 'none';
+    bottom.style.display = 'none';
+  }
 
   switchSource(source);
   document.getElementById('modal').classList.add('open');
@@ -588,10 +625,14 @@ function switchSource(source) {
   var url = embedUrl(currentItem, source);
   if (!url) return;
   document.getElementById('modal-iframe').src = url;
-  document.getElementById('btn-yt').classList.toggle('active', source === 'yt');
-  document.getElementById('btn-vk').classList.toggle('active', source === 'vk');
-  document.getElementById('btn-yt').disabled = !currentItem.yt;
-  document.getElementById('btn-vk').disabled = !currentItem.vk;
+
+  var ids = ['btn-yt-side', 'btn-vk-side', 'btn-yt-bottom', 'btn-vk-bottom'];
+  for (var i = 0; i < ids.length; i++) {
+    var btn = document.getElementById(ids[i]);
+    var isYt = ids[i].indexOf('yt') !== -1;
+    btn.classList.toggle('active', (isYt && source === 'yt') || (!isYt && source === 'vk'));
+    btn.disabled = isYt ? !currentItem.yt : !currentItem.vk;
+  }
 }
 
 function closeModal() {
