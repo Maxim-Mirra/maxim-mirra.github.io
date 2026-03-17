@@ -488,7 +488,7 @@ var gradients = [
 ];
 
 function embedUrl(item) {
-  if (item.yt) return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0&vq=hd1080';
+  if (item.yt) return 'https://www.youtube.com/embed/' + item.yt + '?autoplay=1&rel=0';
   if (item.vk) {
     var p = item.vk.split('_');
     return 'https://vkvideo.ru/video_ext.php?oid=' + p[0] + '&id=' + p[1] + '&hd=2&autoplay=1';
