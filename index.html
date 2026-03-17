@@ -500,7 +500,7 @@ function makeCard(item, idx) {
   var title = item[lang] || item.ru;
   var meta = item['meta_' + lang] || item.meta_ru;
   var bg = gradients[idx % gradients.length];
-  var d = encodeURIComponent(JSON.stringify(item));
+  var d = JSON.stringify(item).replace(/'/g, '&#39;');
   var bgStyle = item.thumb
     ? 'background:' + bg + ';background-image:url(' + item.thumb + ');background-size:cover;background-position:center;'
     : 'background:' + bg + ';';
@@ -535,7 +535,7 @@ function setLang(l) {
 }
 
 function openModal(d) {
-  var item = JSON.parse(decodeURIComponent(d));
+  var item = JSON.parse(d);
   var url = embedUrl(item);
   if (!url) return;
   document.getElementById('modal-title').textContent = item[lang] || item.ru;
