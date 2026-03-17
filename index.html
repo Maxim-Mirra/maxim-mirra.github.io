@@ -381,7 +381,7 @@ footer {
   </p>
   <div class="hero-contacts">
     <a class="contact-link" href="https://t.me/maximmirra" target="_blank">Telegram</a>
-    <a class="contact-link" href="/cdn-cgi/l/email-protection#7e1306130c1913083e19131f1712501d1113"><span class="__cf_email__" data-cfemail="7e1306130c1913083e19131f1712501d1113">[email&#160;protected]</span></a>
+    <a class="contact-link" id="email-hero"></a>
     <a class="contact-link" href="https://instagram.com/maximmirra" target="_blank">Instagram</a>
   </div>
   <div class="scroll-line"></div>
@@ -421,7 +421,7 @@ footer {
   <div class="footer-name">Maxim Mirra</div>
   <div class="footer-links">
     <a class="contact-link" href="https://t.me/maximmirra" target="_blank">Telegram</a>
-    <a class="contact-link" href="/cdn-cgi/l/email-protection#264b5e4b54414b5066414b474f4a0845494b"><span class="__cf_email__" data-cfemail="87eaffeaf5e0eaf1c7e0eae6eeeba9e4e8ea">[email&#160;protected]</span></a>
+    <a class="contact-link" id="email-footer"></a>
     <a class="contact-link" href="https://instagram.com/maximmirra" target="_blank">Instagram</a>
   </div>
 </footer>
@@ -439,7 +439,7 @@ footer {
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 var commercial = [
   {ru:"Рекламный ролик для Hello Fall",en:"Hello Fall Ad",meta_ru:"монтаж + моушен",meta_en:"editing + motion",vk:"-236688224_456239022",yt:"GfaP4CqxofY",vertical:false,thumb:"hello_fall.jpg"},
   {ru:"Свадьба Ноам и Рои",en:"Wedding of Noam & Roi",meta_ru:"монтаж",meta_en:"editing",vk:"-236688224_456239017",yt:null,vertical:true,thumb:"wedding_Noam_Roi.jpg"},
@@ -468,6 +468,15 @@ var reserve = [
   {ru:"Буто II",en:"Butoh II",meta_ru:"съёмка + монтаж",meta_en:"shoot + edit",vk:"-236688224_456239032",yt:"stvPv-LA78Y",vertical:true,thumb:"buto2.jpg"},
   {ru:"Буто III",en:"Butoh III",meta_ru:"съёмка + монтаж",meta_en:"shoot + edit",vk:"-236688224_456239033",yt:"pjrYyBuDkhA",vertical:true,thumb:"buto3.jpg"}
 ];
+
+// Email через JS — Cloudflare это не трогает
+var e = 'mxmrgmv' + '@' + 'gmail.com';
+var heroEmail = document.getElementById('email-hero');
+var footerEmail = document.getElementById('email-footer');
+heroEmail.href = 'mailto:' + e;
+heroEmail.textContent = e;
+footerEmail.href = 'mailto:' + e;
+footerEmail.textContent = e;
 
 var lang = 'ru';
 
