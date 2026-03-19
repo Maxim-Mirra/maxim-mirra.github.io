@@ -624,7 +624,10 @@ function openModal(d) {
 function switchSource(source) {
   var url = embedUrl(currentItem, source);
   if (!url) return;
-  document.getElementById('modal-iframe').src = url;
+  document.getElementById('modal-iframe').src = '';
+  setTimeout(function() {
+    document.getElementById('modal-iframe').src = url;
+  }, 150);
 
   var ids = ['btn-yt-side', 'btn-vk-side', 'btn-yt-bottom', 'btn-vk-bottom'];
   for (var i = 0; i < ids.length; i++) {
