@@ -398,24 +398,23 @@ footer {
   margin-bottom: 0;
 }
 
+
 .social-description {
+  display: inline-block;
+  max-width: 480px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
   color: var(--fg2);
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-.social-instagram {
-  color: var(--accent);
-  font-size: 11px;
-  overflow-wrap: anywhere;
   text-decoration: none;
-  border-bottom: 1px solid var(--fg3);
+  transition: color 0.2s;
 }
 
-.social-instagram:hover {
-  color: var(--fg);
-  border-color: var(--fg);
+.social-description:hover {
+  color: var(--accent);
 }
+
 
 #social .social-heading {
   margin-bottom: 48px;
@@ -472,18 +471,16 @@ footer {
       <span class="section-num">01</span>
     </div>
 
-    <p class="social-description"
-       data-ru="мой видеоблог о фабрике mij в горах армении"
-       data-en="my video blog about the mij factory in the mountains of Armenia">
-      мой видеоблог о фабрике mij в горах армении
-    </p>
+    
+<a class="social-description"
+   href="https://www.instagram.com/mij.factory/"
+   target="_blank"
+   rel="noopener noreferrer"
+   data-ru="мой видеоблог о фабрике mij в горах армении"
+   data-en="my video blog about the mij factory in the mountains of Armenia">
+  мой видеоблог о фабрике mij в горах армении
+</a>
 
-    <a class="social-instagram"
-       href="https://www.instagram.com/mij.factory/"
-       target="_blank"
-       rel="noopener noreferrer">
-      https://www.instagram.com/mij.factory/
-    </a>
   </div>
 
   <div class="grid fade-up" id="grid-social"></div>
@@ -567,7 +564,7 @@ var social = [
     vk: "-236688224_456239041",
     yt: "DLCyYX_spPk",
     vertical: true,
-    thumb: "https://i.ytimg.com/vi/DLCyYX_spPk/hqdefault.jpg"
+    thumb: "https://i.ytimg.com/vi/DLCyYX_spPk/maxresdefault.jpg"
   },
   {
     ru: "День открытых дверей на фабрике Mij",
@@ -577,7 +574,7 @@ var social = [
     vk: "-236688224_456239040",
     yt: "hJT9smVv4Ns",
     vertical: true,
-    thumb: "https://i.ytimg.com/vi/hJT9smVv4Ns/hqdefault.jpg"
+    thumb: "https://i.ytimg.com/vi/hJT9smVv4Ns/maxresdefault.jpg"
   },
   {
     ru: "Приглашение на ночевку на фабрике Mij",
@@ -587,7 +584,7 @@ var social = [
     vk: "-236688224_456239039",
     yt: "4GxD-ERUrcs",
     vertical: true,
-    thumb: "https://i.ytimg.com/vi/4GxD-ERUrcs/hqdefault.jpg"
+    thumb: "https://i.ytimg.com/vi/4GxD-ERUrcs/maxresdefault.jpg"
   },
   {
     ru: "В Армении прекрасно все, фабрика Mij",
@@ -597,7 +594,7 @@ var social = [
     vk: "-236688224_456239042",
     yt: "U8tjxolAQu8",
     vertical: true,
-    thumb: "https://i.ytimg.com/vi/U8tjxolAQu8/hqdefault.jpg"
+    thumb: "https://i.ytimg.com/vi/U8tjxolAQu8/maxresdefault.jpg"
   }
 ];
 
@@ -663,9 +660,15 @@ function makeCard(item, idx) {
   var meta = item['meta_' + lang] || item.meta_ru;
   var bg = gradients[idx % gradients.length];
   var d = encodeURIComponent(JSON.stringify(item));
-  var bgStyle = item.thumb
-    ? 'background:' + bg + ';background-image:url(' + item.thumb + ');background-size:cover;background-position:center;'
-    : 'background:' + bg + ';';
+  
+var bgStyle = item.thumb
+  ? 'background-color:#161616;'
+    + 'background-image:url("' + item.thumb + '");'
+    + 'background-repeat:no-repeat;'
+    + 'background-size:cover;'
+    + 'background-position:center center;'
+  : 'background:' + bg + ';';
+
   return '<div class="card" onclick="openModal(\'' + d + '\')">'
     + '<div class="card-inner" style="' + bgStyle + '">'
     + '<div class="play-btn"><svg width="10" height="12" viewBox="0 0 10 12"><path d="M1 1L9 6L1 11V1Z" fill="white"/></svg></div>'
