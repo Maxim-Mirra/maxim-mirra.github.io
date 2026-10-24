@@ -387,6 +387,40 @@ footer {
 .fade-up { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-up.visible { opacity: 1; transform: none; }
 
+.social-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.social-heading .section-header {
+  margin-bottom: 0;
+}
+
+.social-description {
+  color: var(--fg2);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.social-instagram {
+  color: var(--accent);
+  font-size: 11px;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+  border-bottom: 1px solid var(--fg3);
+}
+
+.social-instagram:hover {
+  color: var(--fg);
+  border-color: var(--fg);
+}
+
+#social .social-heading {
+  margin-bottom: 48px;
+}
+
 @media (max-width: 800px) {
   nav { padding: 16px 20px; }
   .hero { padding: 0 20px 50px; }
@@ -428,10 +462,37 @@ footer {
   <div class="scroll-line"></div>
 </div>
 
+
+<section id="social">
+  <div class="social-heading fade-up">
+    <div class="section-header">
+      <h2 class="section-title"
+          data-ru="Соцсети"
+          data-en="Social media">Соцсети</h2>
+      <span class="section-num">01</span>
+    </div>
+
+    <p class="social-description"
+       data-ru="мой видеоблог о фабрике mij в горах армении"
+       data-en="my video blog about the mij factory in the mountains of Armenia">
+      мой видеоблог о фабрике mij в горах армении
+    </p>
+
+    <a class="social-instagram"
+       href="https://www.instagram.com/mij.factory/"
+       target="_blank"
+       rel="noopener noreferrer">
+      https://www.instagram.com/mij.factory/
+    </a>
+  </div>
+
+  <div class="grid fade-up" id="grid-social"></div>
+</section>
+  
 <section id="commercial">
   <div class="section-header fade-up">
     <h2 class="section-title" data-ru="Коммерческое" data-en="Commercial">Коммерческое</h2>
-    <span class="section-num">01</span>
+    <span class="section-num">02</span>
   </div>
   <div class="grid fade-up" id="grid-commercial"></div>
 </section>
@@ -439,7 +500,7 @@ footer {
 <section id="auteur">
   <div class="section-header fade-up">
     <h2 class="section-title" data-ru="Авторское" data-en="Auteur">Авторское</h2>
-    <span class="section-num">02</span>
+    <span class="section-num">03</span>
   </div>
   <div class="grid fade-up" id="grid-auteur"></div>
 </section>
@@ -496,6 +557,50 @@ footer {
 </div>
 
 <script>
+  
+var social = [
+  {
+    ru: "Выходные на фабрике Mij",
+    en: "Weekend at the Mij Factory",
+    meta_ru: "видеоблог · Mij",
+    meta_en: "video blog · Mij",
+    vk: "-236688224_456239041",
+    yt: "DLCyYX_spPk",
+    vertical: true,
+    thumb: "https://i.ytimg.com/vi/DLCyYX_spPk/hqdefault.jpg"
+  },
+  {
+    ru: "День открытых дверей на фабрике Mij",
+    en: "Open Day at the Mij Factory",
+    meta_ru: "видеоблог · Mij",
+    meta_en: "video blog · Mij",
+    vk: "-236688224_456239040",
+    yt: "hJT9smVv4Ns",
+    vertical: true,
+    thumb: "https://i.ytimg.com/vi/hJT9smVv4Ns/hqdefault.jpg"
+  },
+  {
+    ru: "Приглашение на ночевку на фабрике Mij",
+    en: "Invitation to Stay Overnight at Mij",
+    meta_ru: "видеоблог · Mij",
+    meta_en: "video blog · Mij",
+    vk: "-236688224_456239039",
+    yt: "4GxD-ERUrcs",
+    vertical: true,
+    thumb: "https://i.ytimg.com/vi/4GxD-ERUrcs/hqdefault.jpg"
+  },
+  {
+    ru: "В Армении прекрасно все, фабрика Mij",
+    en: "Everything Is Beautiful in Armenia — Mij Factory",
+    meta_ru: "видеоблог · Mij",
+    meta_en: "video blog · Mij",
+    vk: "-236688224_456239042",
+    yt: "U8tjxolAQu8",
+    vertical: true,
+    thumb: "https://i.ytimg.com/vi/U8tjxolAQu8/hqdefault.jpg"
+  }
+];
+
 var commercial = [
   {ru:"Рекламный ролик для Hello Fall",en:"Hello Fall Ad",meta_ru:"монтаж + моушен",meta_en:"editing + motion",vk:"-236688224_456239022",yt:"GfaP4CqxofY",vertical:false,thumb:"hello_fall.jpg"},
   {ru:"Свадьба Ноам и Рои",en:"Wedding of Noam & Roi",meta_ru:"монтаж",meta_en:"editing",vk:"-236688224_456239017",yt:"s0HH77VuEko",vertical:true,thumb:"wedding_Noam_Roi.jpg"},
@@ -577,10 +682,12 @@ function renderGrid(id, items) {
 }
 
 function renderAll() {
+  renderGrid('grid-social', social);
   renderGrid('grid-commercial', commercial);
   renderGrid('grid-auteur', auteur);
   renderGrid('grid-reserve', reserve);
 }
+
 
 function setLang(l) {
   lang = l;
